@@ -1,5 +1,6 @@
 [![Validate](https://github.com/FlyLuaIo/flyluaioha/actions/workflows/validate.yaml/badge.svg)](https://github.com/FlyLuaIo/flyluaioha/actions/workflows/validate.yaml)
 
+
 ## FlyLuaIoHA (HACS Custom Integration) — Using Events
 
 FlyLuaIoHA exposes Home Assistant events from FlyLuaIo, it requires:
@@ -55,7 +56,7 @@ git checkout v1.0.0
 
 ![config](img/flyluaioha_cfg.jpg)
 
-you need the IP address of where X-Plane Qmdev Addon or MSFS QmdevSimConnect is running
+you need the IP address of where X-Plane FlyLuaIo Addon or MSFS FlyLuaIoSc is running
 
 ## Events (Home Assistant events)
 
