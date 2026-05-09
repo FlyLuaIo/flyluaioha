@@ -2,10 +2,10 @@
 
 ## FlyLuaIoHA (HACS Custom Integration) — Using Events
 
-FlyLuaIoHA exposes Home Assistant events from [QuickMadeSimulation Flight Simulation Hardware](https://x-plane.vip/quickmade/shop/), it requires:
+FlyLuaIoHA exposes Home Assistant events from FlyLuaIo, it requires:
 
-* [Qmdev](https://gitee.com/cpuwolf/qmdev) 7.1 or above, for X-Plane 11/12
-* [QmdevSimConnect](https://sourceforge.net/projects/qmdevsimconnect/) 5.1 or above, for MSFS 2020/2024
+* [FlyLuaIo](https://gitee.com/FlyLuaIo/flyluaio/releases) for X-Plane 11/12
+* [FlyLuaIoSc](https://gitee.com/FlyLuaIo/flyluaiosc/releases/) for MSFS 2020/2024
 
 Instead of directly controlling devices, you create automations that react to these events. This keeps logic in Home Assistant, making it flexible and extensible.
 
@@ -60,7 +60,7 @@ you need the IP address of where X-Plane Qmdev Addon or MSFS QmdevSimConnect is 
 ## Events (Home Assistant events)
 
 - flyluaioha_key_event
-  - qid: quickmade device id (number)
+  - qid: FlyLuaIo device id (number)
   - key: key code (number, e.g., 0x13 = 19)
   - isrelease: whether the key is released (true/false)
   - timestamp: event timestamp (float)
@@ -140,7 +140,7 @@ actions:
   - if:
       - condition: template
         value_template: "{{ trigger.event.data.onoff }}"
-    then:
+    then:s
       - sequence:
           - service: climate.set_temperature
             data:
