@@ -27,7 +27,7 @@ from .const import (
     CONF_ZMQ_SUB_ENDPOINT,
 )
 
-# 公开 ZmqBridge 以便测试可通过 custom_components.qmdevha.ZmqBridge 进行打桩
+# 公开 ZmqBridge 以便测试可通过 custom_components.flyluaioha.ZmqBridge 进行打桩
 from .bridge import ZmqBridge  # noqa: F401
 
 PLATFORMS: list[str] = []

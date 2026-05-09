@@ -1,6 +1,6 @@
-# QmdevHA 测试指南
+# FlyLuaIoHA 测试指南
 
-本指南详细说明如何在Home Assistant中测试QmdevHA自定义集成。
+本指南详细说明如何在Home Assistant中测试FlyLuaIoHA自定义集成。
 
 ## 目录
 
@@ -73,7 +73,7 @@ pytest tests/test_bridge.py::test_turn_on_light -v
 
 ```bash
 # 生成覆盖率报告
-pytest tests/ --cov=custom_components.qmdevha --cov-report=term-missing --cov-report=html
+pytest tests/ --cov=custom_components.flyluaioha --cov-report=term-missing --cov-report=html
 
 # 查看HTML覆盖率报告
 open htmlcov/index.html
@@ -119,10 +119,10 @@ open htmlcov/index.html
 
 ### 1. 在Home Assistant中安装集成
 
-1. 将`custom_components/qmdevha`目录复制到您的HA配置目录
+1. 将`custom_components/flyluaioha`目录复制到您的HA配置目录
 2. 重启Home Assistant
 3. 前往 **设置** → **设备与服务** → **添加集成**
-4. 搜索 `QmdevHA` 并添加
+4. 搜索 **FlyLuaIo HA** 并添加
 
 ### 2. 配置集成
 
@@ -204,16 +204,16 @@ context.term()
 logger:
   default: info
   logs:
-    custom_components.qmdevha: debug
+    custom_components.flyluaioha: debug
 ```
 
 ### 2. 检查日志
 
-查看Home Assistant日志中的QmdevHA相关消息：
+查看Home Assistant日志中的FlyLuaIoHA相关消息：
 
 ```bash
 # 在HA容器中查看日志
-docker logs homeassistant | grep QmdevHA
+docker logs homeassistant | grep FlyLuaIoHA
 
 # 或者在HA前端查看
 开发者工具 → 日志
@@ -300,7 +300,7 @@ jobs:
     
     - name: Run tests
       run: |
-        pytest tests/ --cov=custom_components.qmdevha --cov-report=xml
+        pytest tests/ --cov=custom_components.flyluaioha --cov-report=xml
     
     - name: Upload coverage
       uses: codecov/codecov-action@v3
@@ -322,7 +322,7 @@ jobs:
 
 通过这套完整的测试体系，您可以：
 
-- 验证QmdevHA集成的功能正确性
+- 验证FlyLuaIoHA集成的功能正确性
 - 确保代码质量和稳定性
 - 快速发现和修复问题
 - 支持持续集成和部署

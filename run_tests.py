@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""运行QmdevHA测试的脚本"""
+"""运行 FlyLuaIoHA 测试的脚本"""
 import subprocess
 import sys
 import os
@@ -32,11 +32,11 @@ def run_command(cmd, description):
 
 def main():
     """主函数"""
-    print("QmdevHA 测试套件")
+    print("FlyLuaIoHA 测试套件")
     print("=" * 50)
     
     # 检查是否在正确的目录
-    if not os.path.exists("custom_components/qmdevha"):
+    if not os.path.exists("custom_components/flyluaioha"):
         print("❌ 请在项目根目录运行此脚本")
         sys.exit(1)
     
@@ -48,7 +48,7 @@ def main():
     # 一次性运行所有测试并生成覆盖率报告
     cmd = [
         sys.executable, "-m", "pytest", "tests/", "-v",
-        "--cov=custom_components.qmdevha", "--cov-report=term-missing"
+        "--cov=custom_components.flyluaioha", "--cov-report=term-missing"
     ]
     ok = run_command(cmd, "运行全部测试与覆盖率")
     

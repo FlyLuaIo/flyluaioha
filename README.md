@@ -1,15 +1,15 @@
-[![Validate](https://github.com/QuickMadeSimulation/QmdevHA/actions/workflows/validate.yaml/badge.svg)](https://github.com/QuickMadeSimulation/QmdevHA/actions/workflows/validate.yaml)
+[![Validate](https://github.com/FlyLuaIo/flyluaioha/actions/workflows/validate.yaml/badge.svg)](https://github.com/FlyLuaIo/flyluaioha/actions/workflows/validate.yaml)
 
-## QmdevHA (HACS Custom Integration) — Using Events
+## FlyLuaIoHA (HACS Custom Integration) — Using Events
 
-QmdevHA exposes Home Assistant events from [QuickMadeSimulation Flight Simulation Hardware](https://x-plane.vip/quickmade/shop/), it requires:
+FlyLuaIoHA exposes Home Assistant events from [QuickMadeSimulation Flight Simulation Hardware](https://x-plane.vip/quickmade/shop/), it requires:
 
 * [Qmdev](https://gitee.com/cpuwolf/qmdev) 7.1 or above, for X-Plane 11/12
 * [QmdevSimConnect](https://sourceforge.net/projects/qmdevsimconnect/) 5.1 or above, for MSFS 2020/2024
 
 Instead of directly controlling devices, you create automations that react to these events. This keeps logic in Home Assistant, making it flexible and extensible.
 
-![arch](img/qmdevha.jpg)
+![arch](img/flyluaioha.jpg)
 
 ## Video Demo(how to install)
 
@@ -21,31 +21,31 @@ https://youtu.be/5mgTzvETtQw
 
 One-click installation from HACS:
 
-[![Open your Home Assistant instance and open the QmdevHA integration inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=QuickMadeSimulation&repository=QmdevHA&category=integration)
+[![Open your Home Assistant instance and open the FlyLuaIo HA integration inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=FlyLuaIo&repository=flyluaioha&category=integration)
 
-Or, HACS > In the search box, type **QmdevHA** > Click **QmdevHA**, getting into the detail page > DOWNLOAD
+Or, HACS > In the search box, type **FlyLuaIo HA** > Click **FlyLuaIo HA**, getting into the detail page > DOWNLOAD
 
 
 ### Manual Installation
 
-1. Copy the `custom_components/qmdevha` folder to your `custom_components` directory
+1. Copy the `custom_components/flyluaioha` folder to your `custom_components` directory
 2. Restart Home Assistant
 
 ### Developer Installation: Git clone from GitHub
 
 ```bash
 cd config
-git clone https://github.com/QuickMadeSimulation/QmdevHA.git
-cd QmdevHA
+git clone https://github.com/FlyLuaIo/flyluaioha.git
+cd flyluaioha
 ./install.sh /config
 ```
 
-It is convenient to switch to a tag when updating `QmdevHA` to a certain version.
+It is convenient to switch to a tag when updating `FlyLuaIoHA` to a certain version.
 
 For example, update to version v1.0.0
 
 ```bash
-cd config/QmdevHA
+cd config/flyluaioha
 git fetch
 git checkout v1.0.0
 ./install.sh /config
@@ -53,29 +53,29 @@ git checkout v1.0.0
 
 ## Configuration
 
-![config](img/qmdevha_cfg.jpg)
+![config](img/flyluaioha_cfg.jpg)
 
 you need the IP address of where X-Plane Qmdev Addon or MSFS QmdevSimConnect is running
 
 ## Events (Home Assistant events)
 
-- qmdevha_key_event
+- flyluaioha_key_event
   - qid: quickmade device id (number)
   - key: key code (number, e.g., 0x13 = 19)
   - isrelease: whether the key is released (true/false)
   - timestamp: event timestamp (float)
 
-- qmdevha_pack_event
+- flyluaioha_pack_event
   - onoff: power state (true/false)
   - timestamp: event timestamp (float)
 
 ### Example: Control a light on key event
 
 ```yaml
-alias: QmdevHA DOME BRT
+alias: FlyLuaIoHA DOME BRT
 description: ""
 triggers:
-  - event_type: qmdevha_key_event
+  - event_type: flyluaioha_key_event
     event_data:
       qid: 9
       key: 18
@@ -99,10 +99,10 @@ actions:
 ```
 
 ```yaml
-alias: QmdevHA DOME DIM
+alias: FlyLuaIoHA DOME DIM
 description: ""
 triggers:
-  - event_type: qmdevha_key_event
+  - event_type: flyluaioha_key_event
     event_data:
       qid: 9
       key: 19
@@ -130,10 +130,10 @@ actions:
 
 ```yaml
 # configuration.yaml
-alias: QmdevHA pack controls AC
+alias: FlyLuaIoHA pack controls AC
 description: ""
 triggers:
-  - event_type: qmdevha_pack_event
+  - event_type: flyluaioha_pack_event
     trigger: event
 conditions: []
 actions:

@@ -1,4 +1,4 @@
-"""测试QmdevHA集成初始化（独立于 Home Assistant 环境）"""
+"""测试 FlyLuaIoHA 集成初始化（独立于 Home Assistant 环境）"""
 import asyncio
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -6,8 +6,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 # 使该文件在 `-m github` 过滤时被选择
 pytestmark = pytest.mark.github
 
-from custom_components.qmdevha import async_setup_entry, async_unload_entry
-from custom_components.qmdevha.const import DOMAIN
+from custom_components.flyluaioha import async_setup_entry, async_unload_entry
+from custom_components.flyluaioha.const import DOMAIN
 
 
 class MockConfigEntry:  # 轻量替代，避免依赖 HA 的 tests.common
@@ -24,11 +24,11 @@ def mock_config_entry():
     """模拟配置条目"""
     return MockConfigEntry(
         domain=DOMAIN,
-        title="QmdevHA",
+        title="FlyLuaIoHA",
         data={
             "zmq_sub_endpoint": "192.168.1.100",
         },
-        unique_id="qmdevha_test",
+        unique_id="flyluaioha_test",
     )
 
 
@@ -48,7 +48,7 @@ async def test_async_setup_entry(mock_hass, mock_config_entry):
     mock_task = AsyncMock()
     mock_hass.loop.create_task.return_value = mock_task
     
-    with patch('custom_components.qmdevha._run_zmq_bridge_task') as mock_run_task:
+    with patch('custom_components.flyluaioha._run_zmq_bridge_task') as mock_run_task:
         result = await async_setup_entry(mock_hass, mock_config_entry)
         
         assert result is True
@@ -83,9 +83,9 @@ async def test_async_unload_entry_no_task(mock_hass, mock_config_entry):
 @pytest.mark.asyncio
 async def test_run_zmq_bridge_task_cancelled(mock_hass, mock_config_entry):
     """测试ZMQ桥接任务被取消"""
-    from custom_components.qmdevha import _run_zmq_bridge_task
+    from custom_components.flyluaioha import _run_zmq_bridge_task
     
-    with patch('custom_components.qmdevha.ZmqBridge') as mock_bridge_class:
+    with patch('custom_components.flyluaioha.ZmqBridge') as mock_bridge_class:
         mock_bridge = AsyncMock()
         mock_bridge.run.side_effect = asyncio.CancelledError()
         mock_bridge_class.return_value = mock_bridge
@@ -97,9 +97,9 @@ async def test_run_zmq_bridge_task_cancelled(mock_hass, mock_config_entry):
 @pytest.mark.asyncio
 async def test_run_zmq_bridge_task_exception(mock_hass, mock_config_entry):
     """测试ZMQ桥接任务异常"""
-    from custom_components.qmdevha import _run_zmq_bridge_task
+    from custom_components.flyluaioha import _run_zmq_bridge_task
     
-    with patch('custom_components.qmdevha.ZmqBridge') as mock_bridge_class:
+    with patch('custom_components.flyluaioha.ZmqBridge') as mock_bridge_class:
         mock_bridge = AsyncMock()
         mock_bridge.run.side_effect = Exception("Test error")
         mock_bridge_class.return_value = mock_bridge

@@ -1,12 +1,12 @@
 {
-  "domain": "qmdevha",
-  "name": "Qmdev HA",
+  "domain": "flyluaioha",
+  "name": "FlyLuaIo HA",
   "codeowners": ["@cpuwolf"],
   "config_flow": true,
-  "documentation": "https://github.com/QuickMadeSimulation/QmdevHA",
+  "documentation": "https://github.com/FlyLuaIo/flyluaioha",
   "integration_type": "hub",
   "iot_class": "local_push",
-  "issue_tracker": "https://github.com/QuickMadeSimulation/QmdevHA/issues",
+  "issue_tracker": "https://github.com/FlyLuaIo/flyluaioha/issues",
   "requirements": ["pyzmq>=25.1.0", "python-dotenv>=1.0.1", "requests>=2.31.0"],
   "version": "0.3.0"
 }

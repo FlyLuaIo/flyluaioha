@@ -18,7 +18,7 @@ fi
 script_path=$(dirname "$0")
 
 # Set source and target
-component_name=qmdevha
+component_name=flyluaioha
 source_path="$script_path/custom_components/$component_name"
 target_root="$config_path/custom_components"
 target_path="$target_root/$component_name"
@@ -31,5 +31,5 @@ mkdir -p "$target_root"
 cp -r "$source_path" "$target_path"
 
 # Done.
-echo "Qmdev HA installation is completed. Please restart Home Assistant."
+echo "FlyLuaIo HA installation is completed. Please restart Home Assistant."
 exit 0

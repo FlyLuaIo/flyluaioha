@@ -62,7 +62,7 @@ jobs:
           echo "logger:" >> $config_path/configuration.yaml
           echo "  default: info" >> $config_path/configuration.yaml
           echo "  logs:" >> $config_path/configuration.yaml
-          echo "    custom_components.qmdevha: debug" >> $config_path/configuration.yaml
+          echo "    custom_components.flyluaioha: debug" >> $config_path/configuration.yaml
 
       - name: Setup Home Assistant
         id: homeassistant

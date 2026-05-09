@@ -7,7 +7,7 @@ import struct
 # 使该文件在 `-m github` 过滤时被选择
 pytestmark = pytest.mark.github
 
-from custom_components.qmdevha.bridge import ZmqBridge
+from custom_components.flyluaioha.bridge import ZmqBridge
 
 
 @pytest.fixture
@@ -40,7 +40,7 @@ async def test_handle_key_event(mock_bridge):
     
     # 验证事件被触发
     mock_bridge._hass.bus.async_fire.assert_called_once_with(
-        "qmdevha_key_event",
+        "flyluaioha_key_event",
         {
             "qid": 9,
             "key": 0x13,
@@ -60,7 +60,7 @@ async def test_handle_pack_event(mock_bridge):
     
     # 验证事件被触发
     mock_bridge._hass.bus.async_fire.assert_called_once_with(
-        "qmdevha_pack_event",
+        "flyluaioha_pack_event",
         {
             "onoff": True,
             "degree": 26,

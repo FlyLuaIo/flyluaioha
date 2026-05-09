@@ -48,7 +48,7 @@ class ZmqBridge:
         self._sock = self._ctx.socket(zmq.SUB)
         url = "tcp://"
         url = url + self._zmq_sub_endpoint + ":63870"
-        _LOGGER.debug("qmdevha open %s", url)
+        _LOGGER.debug("flyluaioha open %s", url)
         self._sock.connect(url)
         self._sock.setsockopt_string(zmq.SUBSCRIBE, "")
 
@@ -77,14 +77,14 @@ class ZmqBridge:
         
         # 触发Home Assistant事件
         self._hass.bus.async_fire(
-            "qmdevha_pack_event",
+            "flyluaioha_pack_event",
             {
                 "onoff": onoffbool,
                 "degree": tempdegree,
                 "timestamp": self._hass.loop.time()
             }
         )
-        _LOGGER.debug("Fired qmdevha_pack_event: onoff=%s", onoff)
+        _LOGGER.debug("Fired flyluaioha_pack_event: onoff=%s", onoff)
 
     async def _handle_key_event(self, payload_bytes: bytes) -> None:
         """处理按键事件并触发Home Assistant事件"""
@@ -98,7 +98,7 @@ class ZmqBridge:
         
         # 触发Home Assistant事件
         self._hass.bus.async_fire(
-            "qmdevha_key_event",
+            "flyluaioha_key_event",
             {
                 "qid": qid,
                 "key": key,
@@ -106,7 +106,7 @@ class ZmqBridge:
                 "timestamp": self._hass.loop.time()
             }
         )
-        _LOGGER.debug("Fired qmdevha_key_event: qid=%d, key=0x%x, isrelease=%s", qid, key, isrelease)
+        _LOGGER.debug("Fired flyluaioha_key_event: qid=%d, key=0x%x, isrelease=%s", qid, key, isrelease)
 
     async def run(self, hass) -> None:
         import zmq
@@ -132,24 +132,24 @@ class ZmqBridge:
                         ZMQQ_KEYEVENT_ID = 0x07324D6E
                         ZMQQ_PACKEVENT_ID = 0x07324D6F
                         if msg_id == ZMQQHeartBeat_ID:
-                            #_LOGGER.debug("qmdevha heart beat")
+                            #_LOGGER.debug("flyluaioha heart beat")
                             last_heartbeat = hass.loop.time()
                             continue
 
                         remaining = frames[0][8:]
                         payload = remaining[:payload_len] if len(remaining) >= payload_len else (remaining + b"".join(frames[1:]))[:payload_len]
                         if msg_id == ZMQQ_PACKEVENT_ID:
-                            #_LOGGER.debug("qmdevha pack event")
+                            #_LOGGER.debug("flyluaioha pack event")
                             await self._handle_pack_event(payload)
                         elif msg_id == ZMQQ_KEYEVENT_ID:
-                            #_LOGGER.debug("qmdevha key event")
+                            #_LOGGER.debug("flyluaioha key event")
                             await self._handle_key_event(payload)
                         else:
-                            _LOGGER.debug("qmdevha unknown event")
+                            _LOGGER.debug("flyluaioha unknown event")
                     else:
-                        _LOGGER.debug("qmdevha message is too small")
+                        _LOGGER.debug("flyluaioha message is too small")
                 else:
-                    #_LOGGER.debug("qmdevha timeout")
+                    #_LOGGER.debug("flyluaioha timeout")
                     if hass.loop.time() - last_heartbeat > heartbeat_timeout:
                         await self._close_socket()
                         await asyncio.sleep(0.5)

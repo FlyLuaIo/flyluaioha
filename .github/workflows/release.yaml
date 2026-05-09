@@ -12,14 +12,14 @@ jobs:
 
       - name: ZIP Component Dir
         run: |
-          cd ${{ github.workspace }}/custom_components/qmdevha
-          zip -r qmdevha.zip ./
+          cd ${{ github.workspace }}/custom_components/flyluaioha
+          zip -r flyluaioha.zip ./
 
       - name: Upload zip to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ github.workspace }}/custom_components/qmdevha/qmdevha.zip
-          asset_name: qmdevha.zip
+          file: ${{ github.workspace }}/custom_components/flyluaioha/flyluaioha.zip
+          asset_name: flyluaioha.zip
           tag: ${{ github.ref }}
           overwrite: true

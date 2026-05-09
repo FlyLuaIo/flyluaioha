@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-DOMAIN = "qmdevha"
+DOMAIN = "flyluaioha"
 
 CONF_ZMQ_SUB_ENDPOINT = "zmq_sub_endpoint"
 
-DEFAULT_TITLE = "QmdevHA"
+DEFAULT_TITLE = "FlyLuaIoHA"
 
 
