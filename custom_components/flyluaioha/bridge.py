@@ -20,8 +20,8 @@ import logging
 import struct
 from typing import Any
 
-# 运行时避免对 Home Assistant 和 pyzmq 的强制依赖；
-# 在使用处再进行惰性导入。
+import zmq
+import zmq.asyncio
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -41,8 +41,6 @@ class ZmqBridge:
 
 
     async def _open_socket(self) -> None:
-        import zmq
-        import zmq.asyncio
         if self._ctx is None:
             self._ctx = zmq.asyncio.Context()
         self._sock = self._ctx.socket(zmq.SUB)
@@ -109,8 +107,6 @@ class ZmqBridge:
         _LOGGER.debug("Fired flyluaioha_key_event: qid=%d, key=0x%x, isrelease=%s", qid, key, isrelease)
 
     async def run(self, hass) -> None:
-        import zmq
-        import zmq.asyncio
         await self._open_socket()
         last_heartbeat = hass.loop.time()
         heartbeat_timeout = 6.0
