@@ -20,10 +20,27 @@ import logging
 import struct
 from typing import Any
 
-import zmq
-import zmq.asyncio
-
 _LOGGER = logging.getLogger(__name__)
+
+_zmq: Any | None = None
+_zmq_asyncio: Any | None = None
+
+
+def _import_zmq() -> None:
+    """在 executor 中加载 pyzmq，避免阻塞事件循环。"""
+    global _zmq, _zmq_asyncio
+    if _zmq is not None:
+        return
+    import zmq
+    import zmq.asyncio
+
+    _zmq = zmq
+    _zmq_asyncio = zmq.asyncio
+
+
+async def async_ensure_zmq(hass: Any) -> None:
+    if _zmq is None:
+        await hass.async_add_executor_job(_import_zmq)
 
 
 class ZmqBridge:
@@ -41,14 +58,15 @@ class ZmqBridge:
 
 
     async def _open_socket(self) -> None:
+        assert _zmq is not None and _zmq_asyncio is not None
         if self._ctx is None:
-            self._ctx = zmq.asyncio.Context()
-        self._sock = self._ctx.socket(zmq.SUB)
+            self._ctx = _zmq_asyncio.Context()
+        self._sock = self._ctx.socket(_zmq.SUB)
         url = "tcp://"
         url = url + self._zmq_sub_endpoint + ":63870"
         _LOGGER.debug("flyluaioha open %s", url)
         self._sock.connect(url)
-        self._sock.setsockopt_string(zmq.SUBSCRIBE, "")
+        self._sock.setsockopt_string(_zmq.SUBSCRIBE, "")
 
     async def _close_socket(self) -> None:
         if self._sock is not None:
@@ -107,6 +125,7 @@ class ZmqBridge:
         _LOGGER.debug("Fired flyluaioha_key_event: qid=%d, key=0x%x, isrelease=%s", qid, key, isrelease)
 
     async def run(self, hass) -> None:
+        await async_ensure_zmq(hass)
         await self._open_socket()
         last_heartbeat = hass.loop.time()
         heartbeat_timeout = 6.0
@@ -114,12 +133,12 @@ class ZmqBridge:
         try:
             while True:
                 assert self._sock is not None
-                poller = zmq.asyncio.Poller()
-                poller.register(self._sock, zmq.POLLIN)
+                poller = _zmq_asyncio.Poller()
+                poller.register(self._sock, _zmq.POLLIN)
                 events = dict(await poller.poll(timeout=1000))
-                if self._sock in events and events[self._sock] == zmq.POLLIN:
+                if self._sock in events and events[self._sock] == _zmq.POLLIN:
                     frames: list[bytes] = [await self._sock.recv()]
-                    while self._sock.getsockopt(zmq.RCVMORE):
+                    while self._sock.getsockopt(_zmq.RCVMORE):
                         frames.append(await self._sock.recv())
 
                     if frames and len(frames[0]) >= 8:
