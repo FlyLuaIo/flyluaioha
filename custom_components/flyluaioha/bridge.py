@@ -73,8 +73,11 @@ class ZmqBridge:
             self._sock.close(0)
             self._sock = None
         if self._ctx is not None:
-            self._ctx.term()
+            ctx = self._ctx
             self._ctx = None
+            # Context.term() blocks until every socket has finished tearing down,
+            # which may stall on a slow/half-open peer. Run it in the executor.
+            await self._hass.async_add_executor_job(ctx.term)
 
     async def _handle_pack_event(self, payload_bytes: bytes) -> None:
         """处理打包事件并触发Home Assistant事件"""

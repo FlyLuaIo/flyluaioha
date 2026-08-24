@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to FlyLuaIo",
+        "description": "Enter the IP address of the computer running FlyLuaIo (the ZMQ publisher).",
+        "data": {
+          "zmq_sub_endpoint": "FlyLuaIo host IP address"
+        }
+      }
+    }
+  }
+}
