@@ -17,6 +17,7 @@ class MockConfigEntry:  # 轻量替代，避免依赖 HA 的 tests.common
         self.data = data
         self.unique_id = unique_id
         self.entry_id = unique_id
+        self.async_create_background_task = MagicMock()
 
 
 @pytest.fixture
@@ -46,7 +47,7 @@ def mock_hass():
 async def test_async_setup_entry(mock_hass, mock_config_entry):
     """测试集成设置"""
     mock_task = AsyncMock()
-    mock_hass.loop.create_task.return_value = mock_task
+    mock_config_entry.async_create_background_task.return_value = mock_task
     
     with patch('custom_components.flyluaioha._run_zmq_bridge_task') as mock_run_task:
         result = await async_setup_entry(mock_hass, mock_config_entry)
@@ -54,7 +55,7 @@ async def test_async_setup_entry(mock_hass, mock_config_entry):
         assert result is True
         assert DOMAIN in mock_hass.data
         assert mock_config_entry.entry_id in mock_hass.data[DOMAIN]
-        mock_hass.loop.create_task.assert_called_once()
+        mock_config_entry.async_create_background_task.assert_called_once()
 
 
 @pytest.mark.asyncio

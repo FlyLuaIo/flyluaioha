@@ -8,6 +8,9 @@
           "zmq_sub_endpoint": "FlyLuaIo host IP address"
         }
       }
+    },
+    "abort": {
+      "already_configured": "This FlyLuaIo host is already configured."
     }
   }
 }

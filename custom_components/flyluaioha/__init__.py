@@ -57,7 +57,11 @@ async def _run_zmq_bridge_task(hass: Any, entry: Any) -> None:
 
 async def async_setup_entry(hass: Any, entry: Any) -> bool:
     hass.data.setdefault(DOMAIN, {})
-    task = hass.loop.create_task(_run_zmq_bridge_task(hass, entry))
+    task = entry.async_create_background_task(
+        hass,
+        _run_zmq_bridge_task(hass, entry),
+        name=f"{DOMAIN} bridge",
+    )
     hass.data[DOMAIN][entry.entry_id] = task
     return True
 

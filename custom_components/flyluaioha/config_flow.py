@@ -30,6 +30,8 @@ class FlyluaiohaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(self, user_input=None):  # type: ignore[override]
         if user_input is not None:
+            await self.async_set_unique_id(user_input[CONF_ZMQ_SUB_ENDPOINT])
+            self._abort_if_unique_id_configured()
             header = DEFAULT_TITLE + ":" + user_input[CONF_ZMQ_SUB_ENDPOINT]
             return self.async_create_entry(title=header, data=user_input)
 
